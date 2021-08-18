@@ -49,8 +49,9 @@ public class Main {
             deleteDuplicates(events);
 
             for (SingleEvent event : events) {
-                if (event.getName().equals("Ruszczyk Bo�ena"))
+                if (event.getName().equals("Ruszczyk Bo�ena")) {
                     System.out.println(event);
+                }
             }
 
         } catch (FileNotFoundException e) {
