@@ -11,7 +11,7 @@ import java.util.List;
 
 public class Main {
 
-    private static String pathToCsv = "C:\\Users\\User\\Desktop\\Jakub\\EventsTest.csv";
+    private static final String pathToCsv = "C:\\Users\\User\\Desktop\\Jakub\\EventsTest.csv";
 
     public static void main(String[] args) {
 
@@ -22,8 +22,8 @@ public class Main {
             int actualIndex = 0;
 
             for (String[] singleLine : r) {
-                if (singleLine[0].toString().contains("Parametr 1 zdarzenia RCP - nazwa") || singleLine[0].toString().contains("Data")
-                        || singleLine[0].toString().contains("Godzina") || (singleLine[0].toString().contains("Nazwa u�ytkownika"))) {
+                if (singleLine[0].contains("Parametr 1 zdarzenia RCP - nazwa") || singleLine[0].contains("Data")
+                        || singleLine[0].contains("Godzina") || (singleLine[0].contains("Nazwa u�ytkownika"))) {
 
                     indexes[actualIndex] = getColumnIndex(singleLine[0]);
                     actualIndex++;
@@ -50,7 +50,7 @@ public class Main {
 
             for (SingleEvent event : events) {
                 if (event.getName().equals("Ruszczyk Bo�ena"))
-                    System.out.println(event.toString());
+                    System.out.println(event);
             }
 
         } catch (FileNotFoundException e) {
