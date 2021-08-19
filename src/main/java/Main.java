@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 
 public class Main {
 
@@ -39,7 +40,13 @@ public class Main {
                     continue;
                 }
                 String[] infoForSingleEvent = singleLine[0].split(";");
-                SingleEvent singleEvent = new SingleEvent(infoForSingleEvent, indexes);
+
+                String entryType = infoForSingleEvent[indexes[0]-1];
+                String date = infoForSingleEvent[indexes[1]-1];
+                String time = infoForSingleEvent[indexes[2]-1];
+                String name = infoForSingleEvent[indexes[3]-1];
+
+                SingleEvent singleEvent = new SingleEvent(entryType, date, time, name);
 
                 if (!singleEvent.getName().contains("Linia wej�ciowa")) {
                     events.add(singleEvent);

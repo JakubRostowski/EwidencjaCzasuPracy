@@ -12,15 +12,15 @@ public class SingleEvent {
         WEJŚCIE, WYJŚCIE
     }
 
-    public SingleEvent(String[] singleLine, int[] indexes) {
-        if (Objects.equals(singleLine[indexes[0] - 1], "Wej�cie")) {
+    public SingleEvent(String entryType, String date, String time, String name) {
+        if (Objects.equals(entryType, "Wej�cie")) {
             this.entryType = Entry.WEJŚCIE;
-        } else if (Objects.equals(singleLine[indexes[0] - 1], "Wyj�cie")){
+        } else if (Objects.equals(entryType, "Wyj�cie")){
             this.entryType = Entry.WYJŚCIE;
         }
-        this.date = singleLine[indexes[1]-1];
-        this.time = singleLine[indexes[2]-1];
-        this.name = singleLine[indexes[3]-1];
+        this.date = date;
+        this.time = time;
+        this.name = name;
     }
 
     public Entry getEntryType() {
