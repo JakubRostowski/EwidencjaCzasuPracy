@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 public class Main {
 
@@ -119,8 +118,7 @@ public class Main {
         if (result.contains("=")) {
             result = sb.substring(7, 8);
         }
-        int columnIndex = Integer.parseInt(result);
-        return columnIndex;
+        return Integer.parseInt(result);
     }
 
 }
