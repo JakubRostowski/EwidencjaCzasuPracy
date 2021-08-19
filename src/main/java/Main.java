@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.SortedSet;
 
 public class Main {
 
@@ -17,7 +16,7 @@ public class Main {
 
         try (CSVReader reader = new CSVReader(new FileReader(pathToCsv))) {
             List<String[]> r = reader.readAll();
-            List<SingleEvent> events = new ArrayList<SingleEvent>();
+            List<SingleEvent> events = new ArrayList<>();
             int[] indexes = new int[4];
             int actualIndex = 0;
 
@@ -60,7 +59,7 @@ public class Main {
 //                }
 //            }
 
-            List<String> names = new ArrayList<String>();
+            List<String> names = new ArrayList<>();
             for (SingleEvent event : events) {
                 if (!names.contains(event.getName()) && !event.getName().equals("U�ytkownik nieznany")
                         && !event.getName().equals("Harmonogram:") && !event.getName().isEmpty()) {
