@@ -56,13 +56,14 @@ public class Main {
 
             deleteDuplicates(events);
 
-            for (SingleEvent event : events) {
-                if (event.getName().equals("Ruszczyk Bo�ena")) {
-                    System.out.println(event);
-                }
-            }
+//            for (SingleEvent event : events) {
+//                if (event.getName().equals("Ruszczyk Bo�ena")) {
+//                    System.out.println(event);
+//                }
+//            }
 
             List<String> names = extractNames(events);
+            List<String> dates = extractDates(events);
             List<Employee> employees = new ArrayList<>();
 
 
@@ -86,6 +87,18 @@ public class Main {
         }
         return names;
     }
+
+    private static List<String> extractDates(List<SingleEvent> events) {
+        List<String> dates = new ArrayList<>();
+        for (SingleEvent event : events) {
+            if (!dates.contains(event.getDate())) {
+                dates.add(event.getDate());
+                System.out.println(event.getDate());
+            }
+        }
+        return dates;
+    }
+
 
     private static void deleteDuplicates(List<SingleEvent> events) {
         Iterator<SingleEvent> iterator = events.iterator();
