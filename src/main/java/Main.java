@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.SortedSet;
 
 public class Main {
 
@@ -53,9 +54,17 @@ public class Main {
 
             deleteDuplicates(events);
 
+//            for (SingleEvent event : events) {
+//                if (event.getName().equals("Ruszczyk Bo�ena")) {
+//                    System.out.println(event);
+//                }
+//            }
+
+            List<String> names = new ArrayList<String>();
             for (SingleEvent event : events) {
-                if (event.getName().equals("Ruszczyk Bo�ena")) {
-                    System.out.println(event);
+                if (!names.contains(event.getName()) && !event.getName().equals("U�ytkownik nieznany")
+                        && !event.getName().equals("Harmonogram:") && !event.getName().isEmpty()) {
+                    names.add(event.getName());
                 }
             }
 
