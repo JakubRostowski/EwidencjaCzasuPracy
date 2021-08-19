@@ -2,13 +2,11 @@ import Models.SingleEvent;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvException;
 
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Objects;
 
 public class Main {
 
@@ -61,13 +59,7 @@ public class Main {
                 }
             }
 
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (CsvException e) {
-            e.printStackTrace();
-        } catch (NullPointerException e) {
+        } catch (IOException | CsvException | NullPointerException e) {
             e.printStackTrace();
         }
     }
