@@ -12,6 +12,13 @@ public class Employee {
         this.entries = dates;
     }
 
+    public void printEntries() {
+        System.out.println(this.name);
+        for (SingleEntry entry : this.entries) {
+            System.out.println(entry.toString());
+        }
+    }
+
     public String getName() {
         return name;
     }
