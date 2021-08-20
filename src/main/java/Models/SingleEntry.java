@@ -2,9 +2,9 @@ package Models;
 
 public class SingleEntry {
 
-    private String type;
-    private String date;
-    private String time;
+    private final String type;
+    private final String date;
+    private final String time;
 
     public SingleEntry(String type, String date, String time) {
         this.type = type;
