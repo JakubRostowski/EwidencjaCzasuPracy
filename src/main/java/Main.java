@@ -1,4 +1,5 @@
 import Models.Employee;
+import Models.SingleEntry;
 import Models.SingleEvent;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvException;
@@ -54,10 +55,15 @@ public class Main {
             }
 
             deleteDuplicates(events);
-
             List<Employee> employees = extractEmployees(events);
-            List<String> dates = extractDates(events);
 
+            for (Employee employee : employees) {
+                for (SingleEvent event : events) {
+                    if (employee.getName().equals(event.getName())) {
+                        employee.getEntries().add(new SingleEntry(event.getEntryType(), event.getDate(), event.getTime()));
+                    }
+                }
+            }
 
 
         } catch (IOException | CsvException | NullPointerException e) {

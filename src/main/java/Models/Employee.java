@@ -5,18 +5,18 @@ import java.util.ArrayList;
 public class Employee {
 
     private String name;
-    private ArrayList<Date> dates;
+    private ArrayList<SingleEntry> entries;
 
-    public Employee(String name, ArrayList<Date> dates) {
+    public Employee(String name, ArrayList<SingleEntry> dates) {
         this.name = name;
-        this.dates = dates;
+        this.entries = dates;
     }
 
     public String getName() {
         return name;
     }
 
-    public ArrayList<Date> getDates() {
-        return dates;
+    public ArrayList<SingleEntry> getEntries() {
+        return entries;
     }
 }
