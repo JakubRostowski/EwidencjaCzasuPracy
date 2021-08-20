@@ -11,4 +11,25 @@ public class SingleEntry {
         this.date = date;
         this.time = time;
     }
+
+    public String getType() {
+        return type;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    @Override
+    public String toString() {
+        return "SingleEntry{" +
+                "type='" + type + '\'' +
+                ", date='" + date + '\'' +
+                ", time='" + time + '\'' +
+                '}';
+    }
 }
