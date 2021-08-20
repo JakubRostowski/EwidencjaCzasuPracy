@@ -3,27 +3,23 @@ package Models;
 import java.util.Objects;
 
 public class SingleEvent {
-    private Entry entryType;
+    private String entryType;
     private String date;
     private String time;
     private String name;
 
-    private enum Entry{
-        WEJŚCIE, WYJŚCIE
-    }
-
     public SingleEvent(String entryType, String date, String time, String name) {
         if (Objects.equals(entryType, "Wej�cie")) {
-            this.entryType = Entry.WEJŚCIE;
+            this.entryType = "WEJŚCIE";
         } else if (Objects.equals(entryType, "Wyj�cie")){
-            this.entryType = Entry.WYJŚCIE;
+            this.entryType = "WYJŚCIE";
         }
         this.date = date;
         this.time = time;
         this.name = name;
     }
 
-    public Entry getEntryType() {
+    public String getEntryType() {
         return entryType;
     }
 

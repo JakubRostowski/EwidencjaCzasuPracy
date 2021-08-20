@@ -55,36 +55,25 @@ public class Main {
 
             deleteDuplicates(events);
 
-//            for (SingleEvent event : events) {
-//                if (event.getName().equals("Ruszczyk Bo�ena")) {
-//                    System.out.println(event);
-//                }
-//            }
-
-            List<String> names = extractNames(events);
+            List<Employee> employees = extractEmployees(events);
             List<String> dates = extractDates(events);
-            List<Employee> employees = new ArrayList<>();
 
 
-//            for (String name : names) {
-//
-//                employees.add(new Employee(name, daysOfWork));
-//            }
 
         } catch (IOException | CsvException | NullPointerException e) {
             e.printStackTrace();
         }
     }
 
-    private static List<String> extractNames(List<SingleEvent> events) {
-        List<String> names = new ArrayList<>();
+    private static List<Employee> extractEmployees(List<SingleEvent> events) {
+        List<Employee> employees = new ArrayList<>();
         for (SingleEvent event : events) {
-            if (!names.contains(event.getName()) && !event.getName().equals("U�ytkownik nieznany")
+            if (!employees.contains(event.getName()) && !event.getName().equals("U�ytkownik nieznany")
                     && !event.getName().equals("Harmonogram:") && !event.getName().isEmpty()) {
-                names.add(event.getName());
+                employees.add(new Employee(event.getName(), new ArrayList<>()));
             }
         }
-        return names;
+        return employees;
     }
 
     private static List<String> extractDates(List<SingleEvent> events) {
@@ -92,7 +81,6 @@ public class Main {
         for (SingleEvent event : events) {
             if (!dates.contains(event.getDate())) {
                 dates.add(event.getDate());
-                System.out.println(event.getDate());
             }
         }
         return dates;
@@ -105,7 +93,7 @@ public class Main {
         while (iterator.hasNext()) {
             SingleEvent next = iterator.next();
             if (old.getName().equals(next.getName()) && old.getDate().equals(next.getDate())
-                    && old.getTime().equals(next.getTime()) && old.getEntryType() == next.getEntryType()) {
+                    && old.getTime().equals(next.getTime()) && old.getEntryType().equals(next.getEntryType())) {
                 iterator.remove();
             }
             old = next;

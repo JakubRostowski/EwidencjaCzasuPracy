@@ -5,10 +5,18 @@ import java.util.ArrayList;
 public class Employee {
 
     private String name;
-    private ArrayList<String[]> logs;
+    private ArrayList<Date> dates;
 
-    public Employee(String name, ArrayList<String[]> logs) {
+    public Employee(String name, ArrayList<Date> dates) {
         this.name = name;
-        this.logs = logs;
+        this.dates = dates;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public ArrayList<Date> getDates() {
+        return dates;
     }
 }
