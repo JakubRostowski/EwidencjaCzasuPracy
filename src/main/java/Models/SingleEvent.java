@@ -4,14 +4,14 @@ import java.util.Objects;
 
 public class SingleEvent {
     private String entryType;
-    private String date;
-    private String time;
-    private String name;
+    private final String date;
+    private final String time;
+    private final String name;
 
     public SingleEvent(String entryType, String date, String time, String name) {
         if (Objects.equals(entryType, "Wej�cie")) {
             this.entryType = "WEJŚCIE";
-        } else if (Objects.equals(entryType, "Wyj�cie")){
+        } else if (Objects.equals(entryType, "Wyj�cie")) {
             this.entryType = "WYJŚCIE";
         }
         this.date = date;
