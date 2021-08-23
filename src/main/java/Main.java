@@ -65,10 +65,6 @@ public class Main {
                 }
             }
 
-            for (Employee employee : employees) {
-                System.out.println(employees.indexOf(employee)+1 + ". " + employee.getName());
-            }
-
 
         } catch (IOException | CsvException | NullPointerException e) {
             e.printStackTrace();
