@@ -120,7 +120,7 @@ public class Main {
     }
 
     private static String formatToHoursAndMinutes(String time) {
-        if (time.length() == 7) {
+        if (time.length() == 8) {
             return time.substring(0, time.length() - 3);
         }
         return time;
