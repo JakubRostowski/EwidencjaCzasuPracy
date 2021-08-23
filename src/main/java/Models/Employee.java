@@ -14,9 +14,13 @@ public class Employee {
 
     public void printEntries() {
         System.out.println(this.name);
+        String savedDate = "";
         for (SingleEntry entry : this.entries) {
-            System.out.println(entry.getDate());
+            if (!savedDate.equals(entry.getDate())) {
+                System.out.println(entry.getDate());
+            }
             System.out.println(entry.getType() + " o " + entry.getTime());
+            savedDate = entry.getDate();
         }
     }
 
