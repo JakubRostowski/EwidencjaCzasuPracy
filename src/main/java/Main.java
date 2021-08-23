@@ -87,17 +87,6 @@ public class Main {
         return employees;
     }
 
-    private static List<String> extractDates(List<SingleEvent> events) {
-        List<String> dates = new ArrayList<>();
-        for (SingleEvent event : events) {
-            if (!dates.contains(event.getDate())) {
-                dates.add(event.getDate());
-            }
-        }
-        return dates;
-    }
-
-
     private static void deleteDuplicates(List<SingleEvent> events) {
         Iterator<SingleEvent> iterator = events.iterator();
         SingleEvent old = iterator.next();
