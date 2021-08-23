@@ -45,7 +45,7 @@ public class Main {
                 String entryType = infoForSingleEvent[indexes[0] - 1];
                 String accessType = infoForSingleEvent[indexes[1] - 1];
                 String date = infoForSingleEvent[indexes[2] - 1];
-                String time = infoForSingleEvent[indexes[3] - 1];
+                String time = formatToHoursAndMinutes(infoForSingleEvent[indexes[3] - 1]);
                 String name = infoForSingleEvent[indexes[4] - 1];
 
                 if (!name.contains("Linia wej�ciowa") && accessType.contains("001")) {
@@ -64,6 +64,8 @@ public class Main {
                     }
                 }
             }
+
+            employees.get(0).printEntries();
 
 
         } catch (IOException | CsvException | NullPointerException e) {
@@ -115,6 +117,13 @@ public class Main {
             result = sb.substring(7, 8);
         }
         return Integer.parseInt(result);
+    }
+
+    private static String formatToHoursAndMinutes(String time) {
+        if (time.length() == 7) {
+            return time.substring(0, time.length() - 3);
+        }
+        return time;
     }
 
 }
