@@ -21,7 +21,7 @@ public class SingleEntry {
     }
 
     public String getTime() {
-        return time;
+        return this.time.substring(0, this.time.length() - 3);
     }
 
     @Override
