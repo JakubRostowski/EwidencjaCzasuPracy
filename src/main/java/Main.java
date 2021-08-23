@@ -3,7 +3,14 @@ import Models.SingleEntry;
 import Models.SingleEvent;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvException;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -65,13 +72,37 @@ public class Main {
                 }
             }
 
-            // for testing purposes
-            employees.get(0).printEntries();
+//            for testing purposes
+//            employees.get(0).printEntries();
 
+            Workbook workbook = convertToExcel(employees);
+            exportExcelFile(workbook);
 
         } catch (IOException | CsvException | NullPointerException e) {
             e.printStackTrace();
         }
+    }
+
+    private static void exportExcelFile(Workbook workbook) throws IOException {
+        File currDir = new File(".");
+        String path = currDir.getAbsolutePath();
+        String fileLocation = path.substring(0, path.length() - 1) + "temp.xlsx";
+
+        FileOutputStream outputStream = new FileOutputStream(fileLocation);
+        workbook.write(outputStream);
+        workbook.close();
+    }
+
+    private static Workbook convertToExcel(List<Employee> employees) {
+        Workbook workbook = new XSSFWorkbook();
+
+        for (Employee employee : employees) {
+            Sheet sheet = workbook.createSheet(employee.getName());
+            Row header = sheet.createRow(0);
+            Cell headerCell = header.createCell(0);
+            headerCell.setCellValue("Imię i nazwisko: " + employee.getName());
+        }
+        return workbook;
     }
 
     private static List<Employee> extractEmployees(List<SingleEvent> events) {
