@@ -20,6 +20,7 @@ import java.util.List;
 public class Main {
 
     private static final String pathToCsv = "C:\\Users\\User\\Desktop\\Jakub\\EventsTest.csv";
+    private static ArrayList<String> dates;
 
     public static void main(String[] args) {
 
@@ -62,7 +63,7 @@ public class Main {
             }
 
             deleteDuplicates(events);
-            getDates(events);
+            dates = getDates(events);
             List<Employee> employees = extractEmployees(events);
 
             for (Employee employee : employees) {
@@ -81,7 +82,7 @@ public class Main {
         }
     }
 
-    private static void getDates(List<SingleEvent> events) {
+    private static ArrayList<String> getDates(List<SingleEvent> events) {
         ArrayList<String> dates = new ArrayList<>();
         String savedDate = "";
         for (SingleEvent event : events) {
@@ -90,6 +91,7 @@ public class Main {
                 savedDate = event.getDate();
             }
         }
+        return dates;
     }
 
     private static void exportExcelFile(Workbook workbook) throws IOException {
@@ -109,6 +111,14 @@ public class Main {
             Row header = sheet.createRow(0);
             Cell headerCell = header.createCell(0);
             headerCell.setCellValue("Imię i nazwisko: " + employee.getName());
+
+            int rowIndex = 1;
+            for (String date : dates) {
+                Row row = sheet.createRow(rowIndex);
+                Cell dateCell = row.createCell(0);
+                dateCell.setCellValue(date);
+                rowIndex++;
+            }
         }
         return workbook;
     }
