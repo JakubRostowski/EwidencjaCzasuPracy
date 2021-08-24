@@ -108,11 +108,12 @@ public class Main {
         Workbook workbook = new XSSFWorkbook();
         for (Employee employee : employees) {
             Sheet sheet = workbook.createSheet(employee.getName());
+            sheet.setColumnWidth(0,2800);
             Row header = sheet.createRow(0);
-            Cell headerCell = header.createCell(0);
+            Cell headerCell = header.createCell(1);
             headerCell.setCellValue("Imię i nazwisko: " + employee.getName());
 
-            int rowIndex = 1;
+            int rowIndex = 2;
             for (String date : dates) {
                 Row row = sheet.createRow(rowIndex);
                 Cell dateCell = row.createCell(0);
