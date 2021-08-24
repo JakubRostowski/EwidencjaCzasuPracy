@@ -7,9 +7,9 @@ public class Employee {
     private String name;
     private ArrayList<SingleEntry> entries;
 
-    public Employee(String name, ArrayList<SingleEntry> dates) {
+    public Employee(String name, ArrayList<SingleEntry> entries) {
         this.name = name;
-        this.entries = dates;
+        this.entries = entries;
     }
 
     public void printEntries() {
