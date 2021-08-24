@@ -62,6 +62,7 @@ public class Main {
             }
 
             deleteDuplicates(events);
+            getDates(events);
             List<Employee> employees = extractEmployees(events);
 
             for (Employee employee : employees) {
@@ -72,14 +73,22 @@ public class Main {
                 }
             }
 
-//            for testing purposes
-//            employees.get(0).printEntries();
-
             Workbook workbook = convertToExcel(employees);
             exportExcelFile(workbook);
 
         } catch (IOException | CsvException | NullPointerException e) {
             e.printStackTrace();
+        }
+    }
+
+    private static void getDates(List<SingleEvent> events) {
+        ArrayList<String> dates = new ArrayList<>();
+        String savedDate = "";
+        for (SingleEvent event : events) {
+            if (!savedDate.equals(event.getDate())) {
+                dates.add(event.getDate());
+                savedDate = event.getDate();
+            }
         }
     }
 
@@ -95,7 +104,6 @@ public class Main {
 
     private static Workbook convertToExcel(List<Employee> employees) {
         Workbook workbook = new XSSFWorkbook();
-
         for (Employee employee : employees) {
             Sheet sheet = workbook.createSheet(employee.getName());
             Row header = sheet.createRow(0);
