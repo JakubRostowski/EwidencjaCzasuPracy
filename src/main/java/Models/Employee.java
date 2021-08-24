@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Employee {
 
-    private String name;
+    private final String name;
     private ArrayList<SingleEntry> entries;
 
     public Employee(String name, ArrayList<SingleEntry> entries) {
