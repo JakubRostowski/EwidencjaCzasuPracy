@@ -124,12 +124,10 @@ public class Main {
 
                 ArrayList<String[]> entriesOfDate = new ArrayList<>();
 
-//                int entryCounter = 0;
                 for (SingleEntry entry : employee.getEntries()) {
                     if (date.equals(entry.getDate())) {
                         String[] timeAndTypes = {entry.getTime(), entry.getType()};
                         entriesOfDate.add(timeAndTypes);
-//                        entryCounter++;
                     }
                 }
                 Cell entryNumber = row.createCell(3);
