@@ -122,15 +122,22 @@ public class Main {
                 Cell dateCell = row.createCell(0);
                 dateCell.setCellValue(date);
 
-                int entryCounter = 0;
+                ArrayList<String[]> entriesOfDate = new ArrayList<>();
+
+//                int entryCounter = 0;
                 for (SingleEntry entry : employee.getEntries()) {
                     if (date.equals(entry.getDate())) {
-                        entryCounter++;
-
+                        String[] timeAndTypes = {entry.getTime(), entry.getType()};
+                        entriesOfDate.add(timeAndTypes);
+//                        entryCounter++;
                     }
                 }
                 Cell entryNumber = row.createCell(3);
-                entryNumber.setCellValue(entryCounter);
+                entryNumber.setCellValue(entriesOfDate.size());
+
+//                if (entryCounter == 1) {
+//                    employee.
+//                }
 
                 rowIndex++;
             }
