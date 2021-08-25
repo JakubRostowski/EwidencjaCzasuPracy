@@ -74,7 +74,7 @@ public class Main {
                 }
             }
 
-            Workbook workbook = convertToExcel(employees);
+            Workbook workbook = createExcel(employees);
             exportExcelFile(workbook);
 
         } catch (IOException | CsvException | NullPointerException e) {
@@ -104,7 +104,7 @@ public class Main {
         workbook.close();
     }
 
-    private static Workbook convertToExcel(List<Employee> employees) {
+    private static Workbook createExcel(List<Employee> employees) {
         Workbook workbook = new XSSFWorkbook();
         for (Employee employee : employees) {
             Sheet sheet = workbook.createSheet(employee.getName());
