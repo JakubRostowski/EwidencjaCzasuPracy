@@ -109,19 +109,41 @@ public class Main {
         for (Employee employee : employees) {
             Sheet sheet = workbook.createSheet(employee.getName());
             sheet.setColumnWidth(0,2800);
+
             Row header = sheet.createRow(0);
             Cell headerCell = header.createCell(1);
             headerCell.setCellValue("Imię i nazwisko: " + employee.getName());
+
+            setColumnNames(sheet);
 
             int rowIndex = 2;
             for (String date : dates) {
                 Row row = sheet.createRow(rowIndex);
                 Cell dateCell = row.createCell(0);
                 dateCell.setCellValue(date);
+
+                int entryCounter = 0;
+                for (SingleEntry entry : employee.getEntries()) {
+                    if (date.equals(entry.getDate())) {
+                        entryCounter++;
+
+                    }
+                }
+                Cell entryNumber = row.createCell(3);
+                entryNumber.setCellValue(entryCounter);
+
                 rowIndex++;
             }
         }
         return workbook;
+    }
+
+    private static void setColumnNames(Sheet sheet) {
+        Row columnNames = sheet.createRow(1);
+        Cell in = columnNames.createCell(1);
+        in.setCellValue("Wejście");
+        Cell out = columnNames.createCell(2);
+        out.setCellValue("Wyjście");
     }
 
     private static List<Employee> extractEmployees(List<SingleEvent> events) {
