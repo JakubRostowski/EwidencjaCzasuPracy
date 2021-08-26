@@ -136,20 +136,27 @@ public class Main {
                 if (entriesOfDate.size() == 0) {
                     // to be implemented
                 } else if (entriesOfDate.size() == 1) {
-                    String[] testA = entriesOfDate.get(0);
-                    Cell entry = null;
-                    if (testA[1].equals("WEJŚCIE")) {
-                        entry = row.createCell(1);
-                    } else if (testA[1].equals("WYJŚCIE")) {
-                        entry = row.createCell(2);
-                    }
-                    entry.setCellValue(testA[0]);
+                    String[] entryInfo = entriesOfDate.get(0);
+                    Cell entryCell = getCell(row, entryInfo);
+                    entryCell.setCellValue(entryInfo[0]);
+                } else if (entriesOfDate.size() == 2) {
+
                 }
 
                 rowIndex++;
             }
         }
         return workbook;
+    }
+
+    private static Cell getCell(Row row, String[] entryInfo) {
+        Cell entryCell = null;
+        if (entryInfo[1].equals("WEJŚCIE")) {
+            entryCell = row.createCell(1);
+        } else if (entryInfo[1].equals("WYJŚCIE")) {
+            entryCell = row.createCell(2);
+        }
+        return entryCell;
     }
 
     private static void setColumnNames(Sheet sheet) {
