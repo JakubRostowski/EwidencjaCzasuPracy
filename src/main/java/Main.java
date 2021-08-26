@@ -133,9 +133,18 @@ public class Main {
                 Cell entryNumber = row.createCell(3);
                 entryNumber.setCellValue(entriesOfDate.size());
 
-//                if (entryCounter == 1) {
-//                    employee.
-//                }
+                if (entriesOfDate.size() == 0) {
+                    // to be implemented
+                } else if (entriesOfDate.size() == 1) {
+                    String[] testA = entriesOfDate.get(0);
+                    Cell entry = null;
+                    if (testA[1].equals("WEJŚCIE")) {
+                        entry = row.createCell(1);
+                    } else if (testA[1].equals("WYJŚCIE")) {
+                        entry = row.createCell(2);
+                    }
+                    entry.setCellValue(testA[0]);
+                }
 
                 rowIndex++;
             }
