@@ -105,7 +105,7 @@ public class Main {
         Workbook workbook = new XSSFWorkbook();
         for (Employee employee : employees) {
             Sheet sheet = workbook.createSheet(employee.getName());
-            sheet.setColumnWidth(0,2800);
+            sheet.setColumnWidth(0, 2800);
 
             Row header = sheet.createRow(0);
             Cell headerCell = header.createCell(1);
@@ -130,6 +130,10 @@ public class Main {
                 Cell entryNumber = row.createCell(3);
                 entryNumber.setCellValue(entriesOfDate.size());
 
+                if (entriesOfDate.size() >= 2) {
+                    entriesOfDate = simplifyEntries(entriesOfDate);
+                }
+
                 if (entriesOfDate.size() == 1) {
                     String[] entryInfo = entriesOfDate.get(0);
                     Cell entryCell = getCell(row, entryInfo);
@@ -145,6 +149,62 @@ public class Main {
             }
         }
         return workbook;
+    }
+
+    private static ArrayList<String[]> simplifyEntries(ArrayList<String[]> entriesOfDate) {
+        int in = 0;
+        int out = 0;
+        for (String[] entryOfDate : entriesOfDate) {
+            if (entryOfDate[1].equals("WEJŚCIE")) {
+                in++;
+            }
+            if (entryOfDate[1].equals("WYJŚCIE")) {
+                out++;
+            }
+        }
+
+        ArrayList<String[]> simplifiedEntries = new ArrayList<>();
+
+        if (in > 1 || out > 1) {
+            if (in > 1) {
+                String firstValue = "";
+                String lastValue = "";
+
+                for (String[] entryOfDate : entriesOfDate) {
+                    if (entryOfDate[1].equals("WEJŚCIE")) {
+                        if (firstValue.equals("")) {
+                            firstValue = entryOfDate[0];
+                        }
+                        lastValue = entryOfDate[0];
+                    }
+                }
+
+                String estimatedTime = firstValue + " / " + lastValue;
+                String[] inOutput = {estimatedTime, "WEJŚCIE"};
+                simplifiedEntries.add(inOutput);
+            }
+            if (out > 1) {
+                String firstValue = "";
+                String lastValue = "";
+
+                for (String[] entryOfDate : entriesOfDate) {
+                    if (entryOfDate[1].equals("WYJŚCIE")) {
+                        if (firstValue.equals("")) {
+                            firstValue = entryOfDate[0];
+                        }
+                        lastValue = entryOfDate[0];
+                    }
+                }
+
+                String estimatedTime = firstValue + " / " + lastValue;
+                String[] outOutput = {estimatedTime, "WYJŚCIE"};
+                simplifiedEntries.add(outOutput);
+            }
+
+            return simplifiedEntries;
+        }
+
+        return entriesOfDate;
     }
 
     private static Cell getCell(Row row, String[] entryInfo) {
