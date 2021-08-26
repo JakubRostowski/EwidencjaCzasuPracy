@@ -138,9 +138,8 @@ public class Main {
                     entryCell.setCellValue(entryInfo[0]);
                 } else if (entriesOfDate.size() == 2) {
                     for (String[] entryOfDate : entriesOfDate) {
-                        String[] entryInfo = entryOfDate;
-                        Cell entryCell = getCell(row, entryInfo);
-                        entryCell.setCellValue(entryInfo[0]);
+                        Cell entryCell = getCell(row, entryOfDate);
+                        entryCell.setCellValue(entryOfDate[0]);
                     }
                 }
 
