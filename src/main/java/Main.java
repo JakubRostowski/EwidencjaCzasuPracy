@@ -106,6 +106,8 @@ public class Main {
         for (Employee employee : employees) {
             Sheet sheet = workbook.createSheet(employee.getName());
             sheet.setColumnWidth(0, 2800);
+            sheet.setColumnWidth(1, 3000);
+            sheet.setColumnWidth(2, 3000);
 
             Row header = sheet.createRow(0);
             Cell headerCell = header.createCell(1);
@@ -200,10 +202,8 @@ public class Main {
                 String[] outOutput = {estimatedTime, "WYJŚCIE"};
                 simplifiedEntries.add(outOutput);
             }
-
             return simplifiedEntries;
         }
-
         return entriesOfDate;
     }
 
