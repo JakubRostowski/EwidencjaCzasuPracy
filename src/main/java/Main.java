@@ -130,9 +130,7 @@ public class Main {
                 Cell entryNumber = row.createCell(3);
                 entryNumber.setCellValue(entriesOfDate.size());
 
-                if (entriesOfDate.size() == 0) {
-                    // to be implemented
-                } else if (entriesOfDate.size() == 1) {
+                if (entriesOfDate.size() == 1) {
                     String[] entryInfo = entriesOfDate.get(0);
                     Cell entryCell = getCell(row, entryInfo);
                     entryCell.setCellValue(entryInfo[0]);
