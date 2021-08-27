@@ -149,8 +149,7 @@ public class Main {
                     entriesOfDate.add(timeAndTypes);
                 }
             }
-            Cell entryNumber = row.createCell(3);
-            entryNumber.setCellValue(entriesOfDate.size());
+            writeEntryCounts(row, entriesOfDate);
 
             if (entriesOfDate.size() >= 2) {
                 entriesOfDate = simplifyEntries(entriesOfDate);
@@ -160,6 +159,11 @@ public class Main {
 
             rowIndex++;
         }
+    }
+
+    private static void writeEntryCounts(Row row, ArrayList<String[]> entriesOfDate) {
+        Cell entryNumber = row.createCell(3);
+        entryNumber.setCellValue(entriesOfDate.size());
     }
 
     private static void writeTimestamps(Row row, ArrayList<String[]> entriesOfDate) {
