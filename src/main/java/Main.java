@@ -114,19 +114,25 @@ public class Main {
         Workbook workbook = new XSSFWorkbook();
         for (Employee employee : employees) {
             Sheet sheet = workbook.createSheet(employee.getName());
-            sheet.setColumnWidth(0, 2800);
-            sheet.setColumnWidth(1, 3000);
-            sheet.setColumnWidth(2, 3000);
 
-            Row header = sheet.createRow(0);
-            Cell headerCell = header.createCell(1);
-            headerCell.setCellValue("Imię i nazwisko: " + employee.getName());
-
+            setColumnWidths(sheet);
+            setEmployeeNames(employee, sheet);
             setColumnNames(sheet);
-
             writeRows(employee, sheet);
         }
         return workbook;
+    }
+
+    private static void setColumnWidths(Sheet sheet) {
+        sheet.setColumnWidth(0, 2800);
+        sheet.setColumnWidth(1, 3000);
+        sheet.setColumnWidth(2, 3000);
+    }
+
+    private static void setEmployeeNames(Employee employee, Sheet sheet) {
+        Row header = sheet.createRow(0);
+        Cell headerCell = header.createCell(1);
+        headerCell.setCellValue("Imię i nazwisko: " + employee.getName());
     }
 
     private static void writeRows(Employee employee, Sheet sheet) {
@@ -167,16 +173,8 @@ public class Main {
     }
 
     private static ArrayList<String[]> simplifyEntries(ArrayList<String[]> entriesOfDate) {
-        int in = 0;
-        int out = 0;
-        for (String[] entryOfDate : entriesOfDate) {
-            if (entryOfDate[1].equals("WEJŚCIE")) {
-                in++;
-            }
-            if (entryOfDate[1].equals("WYJŚCIE")) {
-                out++;
-            }
-        }
+        int in = countEntryType(entriesOfDate, "WEJŚCIE");
+        int out = countEntryType(entriesOfDate, "WYJŚCIE");
 
         ArrayList<String[]> simplifiedEntries = new ArrayList<>();
 
@@ -202,6 +200,16 @@ public class Main {
             return simplifiedEntries;
         }
         return entriesOfDate;
+    }
+
+    private static int countEntryType(ArrayList<String[]> entriesOfDate, String searchedEntryType) {
+        int counter = 0;
+        for (String[] entryOfDate : entriesOfDate) {
+            if (entryOfDate[1].equals(searchedEntryType)) {
+                counter++;
+            }
+        }
+        return counter;
     }
 
     private static void estimateInaccurateTimes(ArrayList<String[]> entriesOfDate, ArrayList<String[]> simplifiedEntries, String entryType) {
