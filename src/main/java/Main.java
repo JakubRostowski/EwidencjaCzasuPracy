@@ -24,40 +24,9 @@ public class Main {
         try (CSVReader reader = new CSVReader(new FileReader(pathToCsv))) {
             List<String[]> r = reader.readAll();
             List<SingleEvent> events = new ArrayList<>();
-            int[] indexes = new int[5];
-            int actualIndex = 0;
+            int[] indexes = getColumnIndexes(r);
 
-            for (String[] singleLine : r) {
-                if (singleLine[0].contains("Parametr 1 zdarzenia RCP - nazwa") || singleLine[0].contains("Data")
-                        || singleLine[0].contains("Godzina") || singleLine[0].contains("Nazwa u�ytkownika")
-                        || singleLine[0].contains("Nazwa zdarzenia")) {
-
-                    indexes[actualIndex] = getColumnIndex(singleLine[0]);
-                    actualIndex++;
-                }
-
-                if (actualIndex == indexes.length) {
-                    break;
-                }
-            }
-
-            for (String[] singleLine : r) {
-                if (singleLine[0].startsWith("#")) {
-                    continue;
-                }
-                String[] infoForSingleEvent = singleLine[0].split(";");
-
-                String entryType = infoForSingleEvent[indexes[0] - 1];
-                String accessType = infoForSingleEvent[indexes[1] - 1];
-                String date = infoForSingleEvent[indexes[2] - 1];
-                String time = formatToHoursAndMinutes(infoForSingleEvent[indexes[3] - 1]);
-                String name = infoForSingleEvent[indexes[4] - 1];
-
-                if (!name.contains("Linia wej�ciowa") && accessType.contains("001")) {
-                    SingleEvent singleEvent = new SingleEvent(entryType, date, time, name);
-                    events.add(singleEvent);
-                }
-            }
+            populateEvents(r, events, indexes);
 
             deleteDuplicates(events);
             dates = getDates(events);
@@ -77,6 +46,46 @@ public class Main {
         } catch (IOException | CsvException | NullPointerException e) {
             e.printStackTrace();
         }
+    }
+
+    private static void populateEvents(List<String[]> r, List<SingleEvent> events, int[] indexes) {
+        for (String[] singleLine : r) {
+            if (singleLine[0].startsWith("#")) {
+                continue;
+            }
+            String[] infoForSingleEvent = singleLine[0].split(";");
+
+            String entryType = infoForSingleEvent[indexes[0] - 1];
+            String accessType = infoForSingleEvent[indexes[1] - 1];
+            String date = infoForSingleEvent[indexes[2] - 1];
+            String time = formatToHoursAndMinutes(infoForSingleEvent[indexes[3] - 1]);
+            String name = infoForSingleEvent[indexes[4] - 1];
+
+            if (!name.contains("Linia wej�ciowa") && accessType.contains("001")) {
+                SingleEvent singleEvent = new SingleEvent(entryType, date, time, name);
+                events.add(singleEvent);
+            }
+        }
+    }
+
+    private static int[] getColumnIndexes(List<String[]> r) {
+        int[] indexes = new int[5];
+        int actualIndex = 0;
+
+        for (String[] singleLine : r) {
+            if (singleLine[0].contains("Parametr 1 zdarzenia RCP - nazwa") || singleLine[0].contains("Data")
+                    || singleLine[0].contains("Godzina") || singleLine[0].contains("Nazwa u�ytkownika")
+                    || singleLine[0].contains("Nazwa zdarzenia")) {
+
+                indexes[actualIndex] = extractIndex(singleLine[0]);
+                actualIndex++;
+            }
+
+            if (actualIndex == indexes.length) {
+                break;
+            }
+        }
+        return indexes;
     }
 
     private static ArrayList<String> getDates(List<SingleEvent> events) {
@@ -252,7 +261,7 @@ public class Main {
         }
     }
 
-    private static int getColumnIndex(String line) {
+    private static int extractIndex(String line) {
         StringBuilder sb = new StringBuilder(line);
         String result = sb.substring(7, 9);
         if (result.contains("=")) {
