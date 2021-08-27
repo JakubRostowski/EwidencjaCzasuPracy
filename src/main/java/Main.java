@@ -167,7 +167,6 @@ public class Main {
 
         ArrayList<String[]> simplifiedEntries = new ArrayList<>();
 
-        // TU JEST PROBLEM
         if (in > 1 || out > 1) {
             if (in > 1) {
                 estimateInaccurateTimes(entriesOfDate, simplifiedEntries, "WEJŚCIE");
