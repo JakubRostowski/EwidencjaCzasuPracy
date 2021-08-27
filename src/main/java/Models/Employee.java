@@ -12,18 +12,6 @@ public class Employee {
         this.entries = entries;
     }
 
-    public void printEntries() {
-        System.out.println(this.name);
-        String savedDate = "";
-        for (SingleEntry entry : this.entries) {
-            if (!savedDate.equals(entry.getDate())) {
-                System.out.println(entry.getDate());
-            }
-            System.out.println(entry.getType() + " o " + entry.getTime());
-            savedDate = entry.getDate();
-        }
-    }
-
     public String getName() {
         return name;
     }
