@@ -140,7 +140,7 @@ public class Main {
                     String[] entryInfo = entriesOfDate.get(0);
                     Cell entryCell = getCell(row, entryInfo);
                     entryCell.setCellValue(entryInfo[0]);
-                } else if (entriesOfDate.size() == 2) {
+                } else if (entriesOfDate.size() >= 2) {
                     for (String[] entryOfDate : entriesOfDate) {
                         Cell entryCell = getCell(row, entryOfDate);
                         entryCell.setCellValue(entryOfDate[0]);
@@ -167,31 +167,35 @@ public class Main {
 
         ArrayList<String[]> simplifiedEntries = new ArrayList<>();
 
+
+        // TU JEST PROBLEM
         if (in > 1 || out > 1) {
-            estimateInaccurateTimes(entriesOfDate, in, simplifiedEntries, "WEJŚCIE");
-            estimateInaccurateTimes(entriesOfDate, out, simplifiedEntries, "WYJŚCIE");
+            if (in > 1) {
+                estimateInaccurateTimes(entriesOfDate, simplifiedEntries, "WEJŚCIE");
+            }
+            if (out > 1) {
+                estimateInaccurateTimes(entriesOfDate, simplifiedEntries, "WYJŚCIE");
+            }
             return simplifiedEntries;
         }
         return entriesOfDate;
     }
 
-    private static void estimateInaccurateTimes(ArrayList<String[]> entriesOfDate, int in, ArrayList<String[]> simplifiedEntries, String entryType) {
-        if (in > 1) {
-            String firstValue = "";
-            String lastValue = "";
+    private static void estimateInaccurateTimes(ArrayList<String[]> entriesOfDate, ArrayList<String[]> simplifiedEntries, String entryType) {
+        String firstValue = "";
+        String lastValue = "";
 
-            for (String[] entryOfDate : entriesOfDate) {
-                if (entryOfDate[1].equals(entryType)) {
-                    if (firstValue.equals("")) {
-                        firstValue = entryOfDate[0];
-                    }
-                    lastValue = entryOfDate[0];
+        for (String[] entryOfDate : entriesOfDate) {
+            if (entryOfDate[1].equals(entryType)) {
+                if (firstValue.equals("")) {
+                    firstValue = entryOfDate[0];
                 }
+                lastValue = entryOfDate[0];
             }
 
             String estimatedTime = firstValue + " / " + lastValue;
-            String[] inOutput = {estimatedTime, entryType};
-            simplifiedEntries.add(inOutput);
+            String[] output = {estimatedTime, entryType};
+            simplifiedEntries.add(output);
         }
     }
 
