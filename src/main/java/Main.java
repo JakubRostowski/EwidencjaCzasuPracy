@@ -167,14 +167,25 @@ public class Main {
 
         ArrayList<String[]> simplifiedEntries = new ArrayList<>();
 
-
         // TU JEST PROBLEM
         if (in > 1 || out > 1) {
             if (in > 1) {
                 estimateInaccurateTimes(entriesOfDate, simplifiedEntries, "WEJŚCIE");
+            } else {
+                for (String[] entry : entriesOfDate) {
+                    if (entry[1].equals("WEJŚCIE")) {
+                        simplifiedEntries.add(entry);
+                    }
+                }
             }
             if (out > 1) {
                 estimateInaccurateTimes(entriesOfDate, simplifiedEntries, "WYJŚCIE");
+            } else {
+                for (String[] entry : entriesOfDate) {
+                    if (entry[1].equals("WYJŚCIE")) {
+                        simplifiedEntries.add(entry);
+                    }
+                }
             }
             return simplifiedEntries;
         }
@@ -192,11 +203,10 @@ public class Main {
                 }
                 lastValue = entryOfDate[0];
             }
-
-            String estimatedTime = firstValue + " / " + lastValue;
-            String[] output = {estimatedTime, entryType};
-            simplifiedEntries.add(output);
         }
+        String estimatedTime = firstValue + " / " + lastValue;
+        String[] output = {estimatedTime, entryType};
+        simplifiedEntries.add(output);
     }
 
     private static Cell getCell(Row row, String[] entryInfo) {
