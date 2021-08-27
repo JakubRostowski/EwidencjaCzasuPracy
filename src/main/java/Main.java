@@ -124,42 +124,46 @@ public class Main {
 
             setColumnNames(sheet);
 
-            int rowIndex = 2;
-            for (String date : dates) {
-                Row row = sheet.createRow(rowIndex);
-                Cell dateCell = row.createCell(0);
-                dateCell.setCellValue(date);
-
-                ArrayList<String[]> entriesOfDate = new ArrayList<>();
-
-                for (SingleEntry entry : employee.getEntries()) {
-                    if (date.equals(entry.getDate())) {
-                        String[] timeAndTypes = {entry.getTime(), entry.getType()};
-                        entriesOfDate.add(timeAndTypes);
-                    }
-                }
-                Cell entryNumber = row.createCell(3);
-                entryNumber.setCellValue(entriesOfDate.size());
-
-                if (entriesOfDate.size() >= 2) {
-                    entriesOfDate = simplifyEntries(entriesOfDate);
-                }
-
-                if (entriesOfDate.size() == 1) {
-                    String[] entryInfo = entriesOfDate.get(0);
-                    Cell entryCell = getCell(row, entryInfo);
-                    entryCell.setCellValue(entryInfo[0]);
-                } else if (entriesOfDate.size() >= 2) {
-                    for (String[] entryOfDate : entriesOfDate) {
-                        Cell entryCell = getCell(row, entryOfDate);
-                        entryCell.setCellValue(entryOfDate[0]);
-                    }
-                }
-
-                rowIndex++;
-            }
+            writeRows(employee, sheet);
         }
         return workbook;
+    }
+
+    private static void writeRows(Employee employee, Sheet sheet) {
+        int rowIndex = 2;
+        for (String date : dates) {
+            Row row = sheet.createRow(rowIndex);
+            Cell dateCell = row.createCell(0);
+            dateCell.setCellValue(date);
+
+            ArrayList<String[]> entriesOfDate = new ArrayList<>();
+
+            for (SingleEntry entry : employee.getEntries()) {
+                if (date.equals(entry.getDate())) {
+                    String[] timeAndTypes = {entry.getTime(), entry.getType()};
+                    entriesOfDate.add(timeAndTypes);
+                }
+            }
+            Cell entryNumber = row.createCell(3);
+            entryNumber.setCellValue(entriesOfDate.size());
+
+            if (entriesOfDate.size() >= 2) {
+                entriesOfDate = simplifyEntries(entriesOfDate);
+            }
+
+            if (entriesOfDate.size() == 1) {
+                String[] entryInfo = entriesOfDate.get(0);
+                Cell entryCell = getCell(row, entryInfo);
+                entryCell.setCellValue(entryInfo[0]);
+            } else if (entriesOfDate.size() >= 2) {
+                for (String[] entryOfDate : entriesOfDate) {
+                    Cell entryCell = getCell(row, entryOfDate);
+                    entryCell.setCellValue(entryOfDate[0]);
+                }
+            }
+
+            rowIndex++;
+        }
     }
 
     private static ArrayList<String[]> simplifyEntries(ArrayList<String[]> entriesOfDate) {
