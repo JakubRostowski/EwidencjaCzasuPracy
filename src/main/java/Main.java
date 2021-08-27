@@ -149,7 +149,8 @@ public class Main {
                     entriesOfDate.add(timeAndTypes);
                 }
             }
-            writeEntryCounts(row, entriesOfDate);
+//            useful for debugging
+//            writeEntryCounts(row, entriesOfDate);
 
             if (entriesOfDate.size() >= 2) {
                 entriesOfDate = simplifyEntries(entriesOfDate);
