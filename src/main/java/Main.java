@@ -24,10 +24,8 @@ public class Main {
         try (CSVReader reader = new CSVReader(new FileReader(pathToCsv))) {
             List<String[]> r = reader.readAll();
             List<SingleEvent> events = new ArrayList<>();
-            int[] indexes = getColumnIndexes(r);
 
-            populateEvents(r, events, indexes);
-
+            populateEvents(r, events);
             deleteDuplicates(events);
             dates = getDates(events);
             List<Employee> employees = extractEmployees(events);
@@ -48,7 +46,8 @@ public class Main {
         }
     }
 
-    private static void populateEvents(List<String[]> r, List<SingleEvent> events, int[] indexes) {
+    private static void populateEvents(List<String[]> r, List<SingleEvent> events) {
+        int[] indexes = getColumnIndexes(r);
         for (String[] singleLine : r) {
             if (singleLine[0].startsWith("#")) {
                 continue;
@@ -157,18 +156,16 @@ public class Main {
                 entriesOfDate = simplifyEntries(entriesOfDate);
             }
 
-            if (entriesOfDate.size() == 1) {
-                String[] entryInfo = entriesOfDate.get(0);
-                Cell entryCell = getCell(row, entryInfo);
-                entryCell.setCellValue(entryInfo[0]);
-            } else if (entriesOfDate.size() >= 2) {
-                for (String[] entryOfDate : entriesOfDate) {
-                    Cell entryCell = getCell(row, entryOfDate);
-                    entryCell.setCellValue(entryOfDate[0]);
-                }
-            }
+            writeTimestamps(row, entriesOfDate);
 
             rowIndex++;
+        }
+    }
+
+    private static void writeTimestamps(Row row, ArrayList<String[]> entriesOfDate) {
+        for (String[] entryOfDate : entriesOfDate) {
+            Cell entryCell = getCell(row, entryOfDate);
+            entryCell.setCellValue(entryOfDate[0]);
         }
     }
 
