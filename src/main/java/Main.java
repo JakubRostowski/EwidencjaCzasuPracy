@@ -111,15 +111,26 @@ public class Main {
 
     private static Workbook createExcel(List<Employee> employees) {
         Workbook workbook = new XSSFWorkbook();
+        CellStyle borderStyle = setBorderStyle(workbook);
+
         for (Employee employee : employees) {
             Sheet sheet = workbook.createSheet(employee.getName());
 
             setColumnWidths(sheet);
             setEmployeeNames(employee, sheet);
-            setColumnNames(sheet);
-            writeRows(employee, sheet);
+            setColumnNames(sheet, borderStyle);
+            writeRows(employee, sheet, borderStyle);
         }
         return workbook;
+    }
+
+    private static CellStyle setBorderStyle(Workbook workbook) {
+        CellStyle borders = workbook.createCellStyle();
+        borders.setBorderTop(BorderStyle.THIN);
+        borders.setBorderBottom(BorderStyle.THIN);
+        borders.setBorderLeft(BorderStyle.THIN);
+        borders.setBorderRight(BorderStyle.THIN);
+        return borders;
     }
 
     private static void setColumnWidths(Sheet sheet) {
@@ -134,12 +145,13 @@ public class Main {
         headerCell.setCellValue("Imię i nazwisko: " + employee.getName());
     }
 
-    private static void writeRows(Employee employee, Sheet sheet) {
+    private static void writeRows(Employee employee, Sheet sheet, CellStyle borderStyle) {
         int rowIndex = 2;
         for (String date : dates) {
             Row row = sheet.createRow(rowIndex);
             Cell dateCell = row.createCell(0);
             dateCell.setCellValue(date);
+            dateCell.setCellStyle(borderStyle);
 
             ArrayList<String[]> entriesOfDate = new ArrayList<>();
 
@@ -241,12 +253,14 @@ public class Main {
         return entryCell;
     }
 
-    private static void setColumnNames(Sheet sheet) {
+    private static void setColumnNames(Sheet sheet, CellStyle borderStyle) {
         Row columnNames = sheet.createRow(1);
         Cell in = columnNames.createCell(1);
         in.setCellValue("Wejście");
+        in.setCellStyle(borderStyle);
         Cell out = columnNames.createCell(2);
         out.setCellValue("Wyjście");
+        out.setCellStyle(borderStyle);
     }
 
     private static List<Employee> extractEmployees(List<SingleEvent> events) {
