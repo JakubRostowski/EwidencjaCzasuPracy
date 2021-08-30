@@ -116,6 +116,7 @@ public class Main {
         for (Employee employee : employees) {
             Sheet sheet = workbook.createSheet(employee.getName());
             sheet.getPrintSetup().setScale((short) 140);
+            sheet.setPrintGridlines(true);
             setColumnWidths(sheet);
             setEmployeeNames(employee, sheet);
             setColumnNames(sheet, borderStyle);
@@ -161,7 +162,7 @@ public class Main {
                     entriesOfDate.add(timeAndTypes);
                 }
             }
-//            useful for debugging
+//            for debugging
 //            writeEntryCounts(row, entriesOfDate);
 
             if (entriesOfDate.size() >= 2) {
@@ -175,7 +176,7 @@ public class Main {
     }
 
     private static void writeEntryCounts(Row row, ArrayList<String[]> entriesOfDate) {
-        Cell entryNumber = row.createCell(3);
+        Cell entryNumber = row.createCell(4);
         entryNumber.setCellValue(entriesOfDate.size());
     }
 
@@ -261,6 +262,9 @@ public class Main {
         Cell out = columnNames.createCell(2);
         out.setCellValue("Wyjście");
         out.setCellStyle(borderStyle);
+        Cell totalHours = columnNames.createCell(3);
+        totalHours.setCellValue("Razem");
+        totalHours.setCellStyle(borderStyle);
     }
 
     private static List<Employee> extractEmployees(List<SingleEvent> events) {
