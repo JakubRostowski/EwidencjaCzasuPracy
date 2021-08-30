@@ -115,7 +115,7 @@ public class Main {
 
         for (Employee employee : employees) {
             Sheet sheet = workbook.createSheet(employee.getName());
-
+            sheet.getPrintSetup().setScale((short) 140);
             setColumnWidths(sheet);
             setEmployeeNames(employee, sheet);
             setColumnNames(sheet, borderStyle);
