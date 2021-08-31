@@ -182,10 +182,7 @@ public class Main {
         Cell totalHours = row.createCell(3);
         if (entriesOfDate.size() == 2) {
             if (!entriesOfDate.get(0)[1].equals(entriesOfDate.get(1)[1])) {
-                int inHours;
-                int inMinutes;
-                int outHours;
-                int outMinutes;
+                int inHours, inMinutes, outHours, outMinutes;
 
                 if (entriesOfDate.get(0)[1].equals("WEJŚCIE")) {
                     inHours = Integer.parseInt(entriesOfDate.get(0)[0].split(":")[0]);
@@ -204,21 +201,22 @@ public class Main {
                 boolean isNightShift = checkNightShift(inTotalMinutes, outTotalMinutes);
 
                 if (isNightShift) {
-                    int previousDayShift = outTotalMinutes;
                     int actualDayShift = 1440 - inTotalMinutes;
-                    int totalMinutesWorked = previousDayShift + actualDayShift;
-                    String totalTimeWorked = totalMinutesWorked / 60 + ":" +
-                            (totalMinutesWorked % 60 < 10 ? "0" + totalMinutesWorked % 60 : totalMinutesWorked % 60);
-                    totalHours.setCellValue(totalTimeWorked);
+                    int totalMinutesWorked = outTotalMinutes + actualDayShift;
+                    printHours(totalHours, totalMinutesWorked);
                 } else {
                     int totalMinutesWorked = outTotalMinutes - inTotalMinutes;
-                    String totalTimeWorked = totalMinutesWorked / 60 + ":" +
-                            (totalMinutesWorked % 60 < 10 ? "0" + totalMinutesWorked % 60 : totalMinutesWorked % 60);
-                    totalHours.setCellValue(totalTimeWorked);
+                    printHours(totalHours, totalMinutesWorked);
                 }
 
             }
         }
+    }
+
+    private static void printHours(Cell totalHours, int totalMinutesWorked) {
+        String totalTimeWorked = totalMinutesWorked / 60 + ":" +
+                (totalMinutesWorked % 60 < 10 ? "0" + totalMinutesWorked % 60 : totalMinutesWorked % 60);
+        totalHours.setCellValue(totalTimeWorked);
     }
 
     private static boolean checkNightShift(int inTotalMinutes, int outTotalMinutes) {
