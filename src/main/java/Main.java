@@ -138,6 +138,7 @@ public class Main {
         sheet.setColumnWidth(0, 2800);
         sheet.setColumnWidth(1, 3000);
         sheet.setColumnWidth(2, 3000);
+        sheet.setColumnWidth(3, 3000);
     }
 
     private static void setEmployeeNames(Employee employee, Sheet sheet) {
@@ -165,6 +166,8 @@ public class Main {
 //            for debugging
 //            writeEntryCounts(row, entriesOfDate);
 
+            writeTotalHours(row, entriesOfDate);
+
             if (entriesOfDate.size() >= 2) {
                 entriesOfDate = simplifyEntries(entriesOfDate);
             }
@@ -173,6 +176,53 @@ public class Main {
 
             rowIndex++;
         }
+    }
+
+    private static void writeTotalHours(Row row, ArrayList<String[]> entriesOfDate) {
+        Cell totalHours = row.createCell(3);
+        if (entriesOfDate.size() == 2) {
+            if (!entriesOfDate.get(0)[1].equals(entriesOfDate.get(1)[1])) {
+                int inHours;
+                int inMinutes;
+                int outHours;
+                int outMinutes;
+
+                if (entriesOfDate.get(0)[1].equals("WEJŚCIE")) {
+                    inHours = Integer.parseInt(entriesOfDate.get(0)[0].split(":")[0]);
+                    inMinutes = Integer.parseInt(entriesOfDate.get(0)[0].split(":")[1]);
+                    outHours = Integer.parseInt(entriesOfDate.get(1)[0].split(":")[0]);
+                    outMinutes = Integer.parseInt(entriesOfDate.get(1)[0].split(":")[1]);
+                } else {
+                    inHours = Integer.parseInt(entriesOfDate.get(1)[0].split(":")[0]);
+                    inMinutes = Integer.parseInt(entriesOfDate.get(1)[0].split(":")[1]);
+                    outHours = Integer.parseInt(entriesOfDate.get(0)[0].split(":")[0]);
+                    outMinutes = Integer.parseInt(entriesOfDate.get(0)[0].split(":")[1]);
+                }
+                int inTotalMinutes = inHours * 60 + inMinutes;
+                int outTotalMinutes = outHours * 60 + outMinutes;
+
+                boolean isNightShift = checkNightShift(inTotalMinutes, outTotalMinutes);
+
+                if (isNightShift) {
+                    int previousDayShift = outTotalMinutes;
+                    int actualDayShift = 1440 - inTotalMinutes;
+                    int totalMinutesWorked = previousDayShift + actualDayShift;
+                    String totalTimeWorked = totalMinutesWorked / 60 + ":" +
+                            (totalMinutesWorked % 60 < 10 ? "0" + totalMinutesWorked % 60 : totalMinutesWorked % 60);
+                    totalHours.setCellValue(totalTimeWorked);
+                } else {
+                    int totalMinutesWorked = outTotalMinutes - inTotalMinutes;
+                    String totalTimeWorked = totalMinutesWorked / 60 + ":" +
+                            (totalMinutesWorked % 60 < 10 ? "0" + totalMinutesWorked % 60 : totalMinutesWorked % 60);
+                    totalHours.setCellValue(totalTimeWorked);
+                }
+
+            }
+        }
+    }
+
+    private static boolean checkNightShift(int inTotalMinutes, int outTotalMinutes) {
+        return inTotalMinutes > outTotalMinutes;
     }
 
     private static void writeEntryCounts(Row row, ArrayList<String[]> entriesOfDate) {
