@@ -135,15 +135,16 @@ public class Main {
     }
 
     private static void setColumnWidths(Sheet sheet) {
-        sheet.setColumnWidth(0, 2800);
-        sheet.setColumnWidth(1, 3000);
+        sheet.setColumnWidth(0, 1500);
+        sheet.setColumnWidth(1, 2800);
         sheet.setColumnWidth(2, 3000);
         sheet.setColumnWidth(3, 3000);
+        sheet.setColumnWidth(4, 3000);
     }
 
     private static void setEmployeeNames(Employee employee, Sheet sheet) {
         Row header = sheet.createRow(0);
-        Cell headerCell = header.createCell(1);
+        Cell headerCell = header.createCell(2);
         headerCell.setCellValue("Imię i nazwisko: " + employee.getName());
     }
 
@@ -151,7 +152,7 @@ public class Main {
         int rowIndex = 2;
         for (String date : dates) {
             Row row = sheet.createRow(rowIndex);
-            Cell dateCell = row.createCell(0);
+            Cell dateCell = row.createCell(1);
             dateCell.setCellValue(date);
             dateCell.setCellStyle(borderStyle);
 
@@ -179,7 +180,7 @@ public class Main {
     }
 
     private static void writeTotalHours(Row row, ArrayList<String[]> entriesOfDate) {
-        Cell totalHours = row.createCell(3);
+        Cell totalHours = row.createCell(4);
         if (entriesOfDate.size() == 2) {
             if (!entriesOfDate.get(0)[1].equals(entriesOfDate.get(1)[1])) {
                 int inHours, inMinutes, outHours, outMinutes;
@@ -224,7 +225,7 @@ public class Main {
     }
 
     private static void writeEntryCounts(Row row, ArrayList<String[]> entriesOfDate) {
-        Cell entryNumber = row.createCell(4);
+        Cell entryNumber = row.createCell(5);
         entryNumber.setCellValue(entriesOfDate.size());
     }
 
@@ -295,22 +296,22 @@ public class Main {
     private static Cell getCell(Row row, String[] entryInfo) {
         Cell entryCell = null;
         if (entryInfo[1].equals("WEJŚCIE")) {
-            entryCell = row.createCell(1);
-        } else if (entryInfo[1].equals("WYJŚCIE")) {
             entryCell = row.createCell(2);
+        } else if (entryInfo[1].equals("WYJŚCIE")) {
+            entryCell = row.createCell(3);
         }
         return entryCell;
     }
 
     private static void setColumnNames(Sheet sheet, CellStyle borderStyle) {
         Row columnNames = sheet.createRow(1);
-        Cell in = columnNames.createCell(1);
+        Cell in = columnNames.createCell(2);
         in.setCellValue("Wejście");
         in.setCellStyle(borderStyle);
-        Cell out = columnNames.createCell(2);
+        Cell out = columnNames.createCell(3);
         out.setCellValue("Wyjście");
         out.setCellStyle(borderStyle);
-        Cell totalHours = columnNames.createCell(3);
+        Cell totalHours = columnNames.createCell(4);
         totalHours.setCellValue("Razem");
         totalHours.setCellStyle(borderStyle);
     }
