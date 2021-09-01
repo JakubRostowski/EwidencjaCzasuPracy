@@ -190,31 +190,17 @@ public class Main {
 
         LocalDate localDate = LocalDate.of(year, month, day);
         java.time.DayOfWeek dayOfWeek = localDate.getDayOfWeek();
-        String polishSubstitute = "";
+        String polishSubstitute = switch (dayOfWeek.getValue()) {
+            case 1 -> "Pon";
+            case 2 -> "Wt";
+            case 3 -> "Śr";
+            case 4 -> "Czw";
+            case 5 -> "Pt";
+            case 6 -> "Sob";
+            case 7 -> "Niedz";
+            default -> "";
+        };
 
-        switch (dayOfWeek.getValue()) {
-            case 1:
-                polishSubstitute = "Pon";
-                break;
-            case 2:
-                polishSubstitute = "Wt";
-                break;
-            case 3:
-                polishSubstitute = "Śr";
-                break;
-            case 4:
-                polishSubstitute = "Czw";
-                break;
-            case 5:
-                polishSubstitute = "Pt";
-                break;
-            case 6:
-                polishSubstitute = "Sob";
-                break;
-            case 7:
-                polishSubstitute = "Niedz";
-                break;
-        }
         Cell dayCell = row.createCell(0);
         dayCell.setCellValue(polishSubstitute);
     }
