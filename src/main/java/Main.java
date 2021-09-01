@@ -184,6 +184,11 @@ public class Main {
     }
 
     private static void writeDayOfWeek(String date, Row row) {
+        Cell dayCell = row.createCell(0);
+        dayCell.setCellValue(getPolishSubstitute(date));
+    }
+
+    private static String getPolishSubstitute(String date) {
         int year = Integer.parseInt(date.split("-")[0]);
         int month = Integer.parseInt(date.split("-")[1]);
         int day = Integer.parseInt(date.split("-")[2]);
@@ -200,9 +205,7 @@ public class Main {
             case 7 -> "Niedz";
             default -> "";
         };
-
-        Cell dayCell = row.createCell(0);
-        dayCell.setCellValue(polishSubstitute);
+        return polishSubstitute;
     }
 
     private static void writeDateCell(CellStyle borderStyle, String date, Row row) {
