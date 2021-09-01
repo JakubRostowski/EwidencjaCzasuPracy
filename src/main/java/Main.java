@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -115,14 +116,18 @@ public class Main {
 
         for (Employee employee : employees) {
             Sheet sheet = workbook.createSheet(employee.getName());
-            sheet.getPrintSetup().setScale((short) 140);
-            sheet.setPrintGridlines(true);
+            setPrintSettings(sheet);
             setColumnWidths(sheet);
             setEmployeeNames(employee, sheet);
             setColumnNames(sheet, borderStyle);
             writeRows(employee, sheet, borderStyle);
         }
         return workbook;
+    }
+
+    private static void setPrintSettings(Sheet sheet) {
+        sheet.getPrintSetup().setScale((short) 140);
+        sheet.setPrintGridlines(true);
     }
 
     private static CellStyle setBorderStyle(Workbook workbook) {
@@ -152,9 +157,8 @@ public class Main {
         int rowIndex = 2;
         for (String date : dates) {
             Row row = sheet.createRow(rowIndex);
-            Cell dateCell = row.createCell(1);
-            dateCell.setCellValue(date);
-            dateCell.setCellStyle(borderStyle);
+            writeDayOfWeek(date, row);
+            writeDateCell(borderStyle, date, row);
 
             ArrayList<String[]> entriesOfDate = new ArrayList<>();
 
@@ -177,6 +181,48 @@ public class Main {
 
             rowIndex++;
         }
+    }
+
+    private static void writeDayOfWeek(String date, Row row) {
+        int year = Integer.parseInt(date.split("-")[0]);
+        int month = Integer.parseInt(date.split("-")[1]);
+        int day = Integer.parseInt(date.split("-")[2]);
+
+        LocalDate localDate = LocalDate.of(year, month, day);
+        java.time.DayOfWeek dayOfWeek = localDate.getDayOfWeek();
+        String polishSubstitute = "";
+
+        switch (dayOfWeek.getValue()) {
+            case 1:
+                polishSubstitute = "Pon";
+                break;
+            case 2:
+                polishSubstitute = "Wt";
+                break;
+            case 3:
+                polishSubstitute = "Śr";
+                break;
+            case 4:
+                polishSubstitute = "Czw";
+                break;
+            case 5:
+                polishSubstitute = "Pt";
+                break;
+            case 6:
+                polishSubstitute = "Sob";
+                break;
+            case 7:
+                polishSubstitute = "Niedz";
+                break;
+        }
+        Cell dayCell = row.createCell(0);
+        dayCell.setCellValue(polishSubstitute);
+    }
+
+    private static void writeDateCell(CellStyle borderStyle, String date, Row row) {
+        Cell dateCell = row.createCell(1);
+        dateCell.setCellValue(date);
+        dateCell.setCellStyle(borderStyle);
     }
 
     private static void writeTotalHours(Row row, ArrayList<String[]> entriesOfDate) {
