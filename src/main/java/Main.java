@@ -162,12 +162,7 @@ public class Main {
 
             ArrayList<String[]> entriesOfDate = new ArrayList<>();
 
-            for (SingleEntry entry : employee.getEntries()) {
-                if (date.equals(entry.getDate())) {
-                    String[] timeAndTypes = {entry.getTime(), entry.getType()};
-                    entriesOfDate.add(timeAndTypes);
-                }
-            }
+            populateEntriesOfDate(employee, date, entriesOfDate);
 //            for debugging
 //            writeEntryCounts(row, entriesOfDate);
 
@@ -180,6 +175,15 @@ public class Main {
             writeTimestamps(row, entriesOfDate);
 
             rowIndex++;
+        }
+    }
+
+    private static void populateEntriesOfDate(Employee employee, String date, ArrayList<String[]> entriesOfDate) {
+        for (SingleEntry entry : employee.getEntries()) {
+            if (date.equals(entry.getDate())) {
+                String[] timeAndTypes = {entry.getTime(), entry.getType()};
+                entriesOfDate.add(timeAndTypes);
+            }
         }
     }
 
