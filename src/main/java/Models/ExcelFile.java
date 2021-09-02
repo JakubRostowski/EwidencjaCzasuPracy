@@ -117,7 +117,7 @@ public class ExcelFile {
 
         LocalDate localDate = LocalDate.of(year, month, day);
         java.time.DayOfWeek dayOfWeek = localDate.getDayOfWeek();
-        String polishSubstitute = switch (dayOfWeek.getValue()) {
+        return switch (dayOfWeek.getValue()) {
             case 1 -> "Pon";
             case 2 -> "Wt";
             case 3 -> "Śr";
@@ -127,7 +127,6 @@ public class ExcelFile {
             case 7 -> "Niedz";
             default -> "";
         };
-        return polishSubstitute;
     }
 
     private void writeDateCell(CellStyle borderStyle, String date, Row row) {
