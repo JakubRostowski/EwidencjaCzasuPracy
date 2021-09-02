@@ -14,7 +14,6 @@ import java.util.List;
 public class Main {
 
     private static final String pathToCsv = "C:\\Users\\User\\Desktop\\Jakub\\EventsTest.csv";
-    private static ArrayList<String> dates;
 
     public static void main(String[] args) {
 
@@ -24,11 +23,10 @@ public class Main {
 
             populateEvents(r, events);
             deleteDuplicates(events);
-            dates = getDates(events);
             List<Employee> employees = extractEmployees(events);
             bindEventsToEmployees(events, employees);
 
-            ExcelFile excelFile = new ExcelFile(dates);
+            ExcelFile excelFile = new ExcelFile(getDates(events));
             excelFile.createExcel(employees);
             excelFile.exportExcelFile();
 
