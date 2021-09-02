@@ -19,7 +19,7 @@ public class ExcelFile {
         this.dates = dates;
     }
 
-    public void exportExcelFile() throws IOException {
+    public void export() throws IOException {
         File currDir = new File(".");
         String path = currDir.getAbsolutePath();
         String fileLocation = path.substring(0, path.length() - 1) + "temp.xlsx";
@@ -29,7 +29,7 @@ public class ExcelFile {
         workbook.close();
     }
 
-    public void createExcel(List<Employee> employees) {
+    public void create(List<Employee> employees) {
         this.workbook = new XSSFWorkbook();
         CellStyle borderStyle = setBorderStyle(workbook);
 

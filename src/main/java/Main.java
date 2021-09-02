@@ -27,8 +27,8 @@ public class Main {
             bindEventsToEmployees(events, employees);
 
             ExcelFile excelFile = new ExcelFile(getDates(events));
-            excelFile.createExcel(employees);
-            excelFile.exportExcelFile();
+            excelFile.create(employees);
+            excelFile.export();
 
         } catch (IOException | CsvException | NullPointerException e) {
             e.printStackTrace();
