@@ -18,10 +18,10 @@ public class Main {
     public static void main(String[] args) {
 
         try (CSVReader reader = new CSVReader(new FileReader(pathToCsv))) {
-            List<String[]> r = reader.readAll();
+            List<String[]> linesOfCsv = reader.readAll();
             List<SingleEvent> events = new ArrayList<>();
 
-            populateEvents(r, events);
+            populateEvents(linesOfCsv, events);
             deleteDuplicates(events);
             List<Employee> employees = extractEmployees(events);
             bindEventsToEmployees(events, employees);
