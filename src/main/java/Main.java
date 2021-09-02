@@ -30,20 +30,23 @@ public class Main {
             deleteDuplicates(events);
             dates = getDates(events);
             List<Employee> employees = extractEmployees(events);
-
-            for (Employee employee : employees) {
-                for (SingleEvent event : events) {
-                    if (employee.getName().equals(event.getName())) {
-                        employee.getEntries().add(new SingleEntry(event.getEntryType(), event.getDate(), event.getTime()));
-                    }
-                }
-            }
+            bindEventsToEmployees(events, employees);
 
             Workbook workbook = createExcel(employees);
             exportExcelFile(workbook);
 
         } catch (IOException | CsvException | NullPointerException e) {
             e.printStackTrace();
+        }
+    }
+
+    private static void bindEventsToEmployees(List<SingleEvent> events, List<Employee> employees) {
+        for (Employee employee : employees) {
+            for (SingleEvent event : events) {
+                if (employee.getName().equals(event.getName())) {
+                    employee.getEntries().add(new SingleEntry(event.getEntryType(), event.getDate(), event.getTime()));
+                }
+            }
         }
     }
 
