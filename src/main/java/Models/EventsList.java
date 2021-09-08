@@ -97,7 +97,19 @@ public class EventsList {
         return time;
     }
 
+    public ArrayList<String> getDates() {
+        ArrayList<String> dates = new ArrayList<>();
+        String savedDate = "";
+        for (SingleEvent event : this.events) {
+            if (!savedDate.equals(event.getDate())) {
+                dates.add(event.getDate());
+                savedDate = event.getDate();
+            }
+        }
+        return dates;
+    }
+
     public ArrayList<SingleEvent> getEvents() {
-        return events;
+        return this.events;
     }
 }

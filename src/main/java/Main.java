@@ -4,7 +4,6 @@ import com.opencsv.exceptions.CsvException;
 
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
@@ -21,7 +20,7 @@ public class Main {
             List<Employee> employees = events.extractEmployees();
             bindEventsToEmployees(events.getEvents(), employees);
 
-            ExcelFile excelFile = new ExcelFile(getDates(events.getEvents()));
+            ExcelFile excelFile = new ExcelFile(events.getDates());
             excelFile.create(employees);
             excelFile.export();
 
@@ -38,18 +37,6 @@ public class Main {
                 }
             }
         }
-    }
-
-    private static ArrayList<String> getDates(List<SingleEvent> events) {
-        ArrayList<String> dates = new ArrayList<>();
-        String savedDate = "";
-        for (SingleEvent event : events) {
-            if (!savedDate.equals(event.getDate())) {
-                dates.add(event.getDate());
-                savedDate = event.getDate();
-            }
-        }
-        return dates;
     }
 
 }
