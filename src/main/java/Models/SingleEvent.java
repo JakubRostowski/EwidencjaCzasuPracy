@@ -3,6 +3,7 @@ package Models;
 import java.util.Objects;
 
 public class SingleEvent {
+
     private String entryType;
     private final String date;
     private final String time;
