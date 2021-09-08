@@ -19,9 +19,7 @@ public class Main {
 
         try (CSVReader reader = new CSVReader(new FileReader(pathToCsv))) {
             List<String[]> linesOfCsv = reader.readAll();
-            List<SingleEvent> events = new ArrayList<>();
-
-            populateEvents(linesOfCsv, events);
+            List<SingleEvent> events = extractEvents(linesOfCsv);
             deleteDuplicates(events);
             List<Employee> employees = extractEmployees(events);
             bindEventsToEmployees(events, employees);
@@ -45,9 +43,10 @@ public class Main {
         }
     }
 
-    private static void populateEvents(List<String[]> r, List<SingleEvent> events) {
-        int[] indexes = getColumnIndexes(r);
-        for (String[] singleLine : r) {
+    private static ArrayList<SingleEvent> extractEvents(List<String[]> linesOfCsv) {
+        int[] indexes = getColumnIndexes(linesOfCsv);
+        ArrayList<SingleEvent> events = new ArrayList<>();
+        for (String[] singleLine : linesOfCsv) {
             if (singleLine[0].startsWith("#")) {
                 continue;
             }
@@ -64,6 +63,7 @@ public class Main {
                 events.add(singleEvent);
             }
         }
+        return events;
     }
 
     private static int[] getColumnIndexes(List<String[]> r) {
