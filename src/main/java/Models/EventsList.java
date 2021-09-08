@@ -119,7 +119,4 @@ public class EventsList {
         }
     }
 
-    public ArrayList<SingleEvent> getEvents() {
-        return this.events;
-    }
 }
