@@ -68,6 +68,19 @@ public class EventsList {
         }
     }
 
+    public List<Employee> extractEmployees() {
+        List<Employee> employees = new ArrayList<>();
+        List<String> names = new ArrayList<>();
+        for (SingleEvent event : this.events) {
+            if (!names.contains(event.getName()) && !event.getName().equals("U�ytkownik nieznany")
+                    && !event.getName().equals("Harmonogram:") && !event.getName().isEmpty()) {
+                names.add(event.getName());
+                employees.add(new Employee(event.getName(), new ArrayList<>()));
+            }
+        }
+        return employees;
+    }
+
     private static int extractIndex(String line) {
         StringBuilder sb = new StringBuilder(line);
         String result = sb.substring(7, 9);

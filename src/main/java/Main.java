@@ -18,7 +18,7 @@ public class Main {
             EventsList events = new EventsList(linesOfCsv);
             events.deleteDuplicates();
 
-            List<Employee> employees = extractEmployees(events.getEvents());
+            List<Employee> employees = events.extractEmployees();
             bindEventsToEmployees(events.getEvents(), employees);
 
             ExcelFile excelFile = new ExcelFile(getDates(events.getEvents()));
@@ -51,20 +51,5 @@ public class Main {
         }
         return dates;
     }
-
-    private static List<Employee> extractEmployees(List<SingleEvent> events) {
-        List<Employee> employees = new ArrayList<>();
-        List<String> names = new ArrayList<>();
-        for (SingleEvent event : events) {
-            if (!names.contains(event.getName()) && !event.getName().equals("U�ytkownik nieznany")
-                    && !event.getName().equals("Harmonogram:") && !event.getName().isEmpty()) {
-                names.add(event.getName());
-                employees.add(new Employee(event.getName(), new ArrayList<>()));
-            }
-        }
-        return employees;
-    }
-
-
 
 }
