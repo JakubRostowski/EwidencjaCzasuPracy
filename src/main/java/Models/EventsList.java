@@ -8,8 +8,8 @@ public class EventsList {
 
     private ArrayList<SingleEvent> events;
 
-    public EventsList(List<String[]> CsvFile) {
-        this.events = extractEvents(CsvFile);
+    public EventsList(List<String[]> csvRecords) {
+        this.events = extractEvents(csvRecords);
     }
 
     private static ArrayList<SingleEvent> extractEvents(List<String[]> linesOfCsv) {
