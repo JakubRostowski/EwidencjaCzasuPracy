@@ -1,14 +1,10 @@
-import Models.Employee;
-import Models.ExcelFile;
-import Models.SingleEntry;
-import Models.SingleEvent;
+import Models.*;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvException;
 
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class Main {
@@ -19,12 +15,13 @@ public class Main {
 
         try (CSVReader reader = new CSVReader(new FileReader(pathToCsv))) {
             List<String[]> linesOfCsv = reader.readAll();
-            List<SingleEvent> events = extractEvents(linesOfCsv);
-            deleteDuplicates(events);
-            List<Employee> employees = extractEmployees(events);
-            bindEventsToEmployees(events, employees);
+            EventsList events = new EventsList(linesOfCsv);
+            events.deleteDuplicates();
 
-            ExcelFile excelFile = new ExcelFile(getDates(events));
+            List<Employee> employees = extractEmployees(events.getEvents());
+            bindEventsToEmployees(events.getEvents(), employees);
+
+            ExcelFile excelFile = new ExcelFile(getDates(events.getEvents()));
             excelFile.create(employees);
             excelFile.export();
 
@@ -41,49 +38,6 @@ public class Main {
                 }
             }
         }
-    }
-
-    private static ArrayList<SingleEvent> extractEvents(List<String[]> linesOfCsv) {
-        int[] indexes = getColumnIndexes(linesOfCsv);
-        ArrayList<SingleEvent> events = new ArrayList<>();
-        for (String[] singleLine : linesOfCsv) {
-            if (singleLine[0].startsWith("#")) {
-                continue;
-            }
-            String[] infoForSingleEvent = singleLine[0].split(";");
-
-            String entryType = infoForSingleEvent[indexes[0] - 1];
-            String accessType = infoForSingleEvent[indexes[1] - 1];
-            String date = infoForSingleEvent[indexes[2] - 1];
-            String time = formatToHoursAndMinutes(infoForSingleEvent[indexes[3] - 1]);
-            String name = infoForSingleEvent[indexes[4] - 1];
-
-            if (!name.contains("Linia wej�ciowa") && accessType.contains("001")) {
-                SingleEvent singleEvent = new SingleEvent(entryType, date, time, name);
-                events.add(singleEvent);
-            }
-        }
-        return events;
-    }
-
-    private static int[] getColumnIndexes(List<String[]> r) {
-        int[] indexes = new int[5];
-        int actualIndex = 0;
-
-        for (String[] singleLine : r) {
-            if (singleLine[0].contains("Parametr 1 zdarzenia RCP - nazwa") || singleLine[0].contains("Data")
-                    || singleLine[0].contains("Godzina") || singleLine[0].contains("Nazwa u�ytkownika")
-                    || singleLine[0].contains("Nazwa zdarzenia")) {
-
-                indexes[actualIndex] = extractIndex(singleLine[0]);
-                actualIndex++;
-            }
-
-            if (actualIndex == indexes.length) {
-                break;
-            }
-        }
-        return indexes;
     }
 
     private static ArrayList<String> getDates(List<SingleEvent> events) {
@@ -111,33 +65,6 @@ public class Main {
         return employees;
     }
 
-    private static void deleteDuplicates(List<SingleEvent> events) {
-        Iterator<SingleEvent> iterator = events.iterator();
-        SingleEvent old = iterator.next();
-        while (iterator.hasNext()) {
-            SingleEvent next = iterator.next();
-            if (old.getName().equals(next.getName()) && old.getDate().equals(next.getDate())
-                    && old.getTime().equals(next.getTime()) && old.getEntryType().equals(next.getEntryType())) {
-                iterator.remove();
-            }
-            old = next;
-        }
-    }
 
-    private static int extractIndex(String line) {
-        StringBuilder sb = new StringBuilder(line);
-        String result = sb.substring(7, 9);
-        if (result.contains("=")) {
-            result = sb.substring(7, 8);
-        }
-        return Integer.parseInt(result);
-    }
-
-    private static String formatToHoursAndMinutes(String time) {
-        if (time.length() == 8) {
-            return time.substring(0, time.length() - 3);
-        }
-        return time;
-    }
 
 }
