@@ -109,6 +109,16 @@ public class EventsList {
         return dates;
     }
 
+    public void bindEventsToEmployees(List<Employee> employees) {
+        for (Employee employee : employees) {
+            for (SingleEvent event : this.events) {
+                if (employee.getName().equals(event.getName())) {
+                    employee.getEntries().add(new SingleEntry(event.getEntryType(), event.getDate(), event.getTime()));
+                }
+            }
+        }
+    }
+
     public ArrayList<SingleEvent> getEvents() {
         return this.events;
     }

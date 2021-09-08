@@ -18,7 +18,7 @@ public class Main {
             events.deleteDuplicates();
 
             List<Employee> employees = events.extractEmployees();
-            bindEventsToEmployees(events.getEvents(), employees);
+            events.bindEventsToEmployees(employees);
 
             ExcelFile excelFile = new ExcelFile(events.getDates());
             excelFile.create(employees);
@@ -29,13 +29,4 @@ public class Main {
         }
     }
 
-    private static void bindEventsToEmployees(List<SingleEvent> events, List<Employee> employees) {
-        for (Employee employee : employees) {
-            for (SingleEvent event : events) {
-                if (employee.getName().equals(event.getName())) {
-                    employee.getEntries().add(new SingleEntry(event.getEntryType(), event.getDate(), event.getTime()));
-                }
-            }
-        }
-    }
 }
